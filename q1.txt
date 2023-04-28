@@ -1,0 +1,1045 @@
+Aim: Create an android app to illustrate activity life Cycle
+MainActivity.java
+import android.os.Bundle;
+import android.app.Activity;
+import android.util.Log;
+import android.view.Menu;
+public class MainActivity extends Activity
+{@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+Log.d("lifecycle","onCreate invoked");
+}
+@Override
+protected void onStart(){
+super.onStart();
+Log.d("lifecycle","onStart invoked");
+}
+@Override
+protected void onResume() {
+super.onResume();
+Log.d("lifecycle","onResume invoked");
+}
+@Override
+protected void onPause() {
+super.onPause();
+Log.d("lifecycle","onPause invoked");
+}
+@Override
+protected void onStop() {
+super.onStop();
+Log.d("lifecycle","onStop invoked");
+}
+@Override
+protected void onRestart() {
+super.onRestart();
+Log.d("lifecycle","onRestart invoked");
+}
+@Override
+protected void onDestroy() {
+super.onDestroy();
+Log.d("lifecycle","onDestroy invoked");
+}
+}
+
+Output
+Open Log Cat..=====
+
+
+==============================================================================================================================================
+
+im: Create an android app to visit a specified webpage (Use ImplicitIntent)
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent" android:layout_height="match_parent"
+tools:context="com.example.administrator.implicit.MainActivity">
+<EditText
+android:id="@+id/editText1"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="44dp" android:ems="10" />
+<Button
+android:id="@+id/button1"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_below="@+id/editText1"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="54dp" android:text="Visit" />
+</RelativeLayout >
+----------------------------------------------------------------------------------
+MainActivity.java
+import android.net.Uri; import
+android.os.Bundle; import
+android.app.Activity; import
+android.content.Intent;import
+android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+public class MainActivity extends Activity{
+@Override
+protected void onCreate(Bundle savedInstanceState)
+{
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+final EditText editText1=(EditText)findViewById(R.id.editText1);
+Button button1=(Button)findViewById(R.id.button1);
+button1.setOnClickListener(new OnClickListener()
+{@Override
+public void onClick(View arg0) {
+String url=editText1.getText().toString();
+Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+startActivity(intent);
+}
+});
+}}
+
+============================================================================================
+
+Create an android app to navigate between activities (Use Explicit Intent)
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <Button
+ android:id="@+id/b1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Call Second activity"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.529"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ android:onClick="callsecondactivity"/>
+ <EditText
+ android:id="@+id/t1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10"
+ android:inputType="textPersonName"
+ android:text="FirstActivity"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.597"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.262" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+MainActivity.java
+package com.vardhaman.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+public class MainActivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ }
+ public void callsecondactivity(View view){
+ Intent i = new Intent(getApplicationContext(), secondactivity.class);
+ i.putExtra("Value1", "5");
+ i.putExtra("Value2", "6");
+ startActivity(i);
+ }
+}
+activity_secondactivity.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".secondactivity">
+ <EditText
+ android:id="@+id/t2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10"
+ android:inputType="textPersonName"
+ android:text="Secondactivity"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.462"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.3" />
+ <Button
+android:id="@+id/b2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Call First Activity"
+ android:onClick="callMainActivity"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+secondactivity.java
+package com.vardhaman.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+public class secondactivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_secondactivity);
+ Bundle extras = getIntent().getExtras();
+ String value1 = extras.getString("Value1");
+ String value2 = extras.getString("Value2");
+ int a=Integer.parseInt(value1);
+ int b=Integer.parseInt(value2);
+ int c=a+b;
+ Toast t= Toast.makeText(getApplicationContext(),"addition is :" +c, Toast.LENGTH_LONG);
+ t.show();
+ }
+ public void callMainActivity(View view){
+ Intent i = new Intent(getApplicationContext(), MainActivity.class);
+ startActivity(i);
+ }
+}
+
+====================================================================================================
+Aim: Create an android app to perform mathematical operations (+,-,*,/,%).(Use
+buttons, edittext, toast controls)
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:id="@+id/b2"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:background="#F4F7F8"
+ android:backgroundTint="#009688"
+ android:overScrollMode="ifContentScrolls"
+ tools:context=".MainActivity">
+ <TextView
+ android:id="@+id/textView"
+ android:layout_width="68dp"
+ android:layout_height="39dp"
+ android:text="Number1"
+ android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.144"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.231" />
+ <TextView
+ android:id="@+id/textView2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Number2"
+ android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.144"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.358" />
+ <Button
+ android:id="@+id/b1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:onClick="add"
+ android:text="Add"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.12"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.563" />
+ <Button
+ android:id="@+id/b2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Sub"
+ android:onClick="sub"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.529"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.563" />
+ <Button
+ android:id="@+id/b3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Mul"
+ android:onClick="mul"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.885"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.563" />
+ <Button
+ android:id="@+id/b4"
+android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:onClick="div"
+ android:text="Div"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.12"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.696" />
+ <Button
+ android:id="@+id/b5"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:onClick="mod"
+ android:text="Mod"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.529"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.696" />
+ <EditText
+ android:id="@+id/e1"
+ android:layout_width="211dp"
+ android:layout_height="42dp"
+ android:background="#EADBDB"
+ android:ems="10"
+ android:inputType="textPersonName"
+ android:shadowColor="#FFFFFF"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.82"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.232" />
+ <EditText
+ android:id="@+id/e2"
+ android:layout_width="208dp"
+ android:layout_height="29dp"
+android:background="#F6F0F0"
+ android:ems="10"
+ android:inputType="textPersonName"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.815"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.348" />
+ <TextView
+ android:id="@+id/textView3"
+ android:layout_width="0dp"
+ android:layout_height="wrap_content"
+ android:text="CALCULATOR"
+ android:textAlignment="center"
+ android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.464"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.12" />
+ <TextView
+ android:id="@+id/res"
+ android:layout_width="192dp"
+ android:layout_height="38dp"
+ android:background="#8BC34A"
+ android:textColor="#D51F1F"
+ android:textSize="20sp"
+ android:textStyle="bold"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.569"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.858" />
+ <TextView
+ android:id="@+id/textView4"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+android:text="Result"
+ android:textSize="20sp"
+ android:textStyle="bold"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.11"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.845" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+MainActivity.java:
+package com.vardhaman.calculator;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+public class MainActivity extends AppCompatActivity {
+ private EditText et1, et2, res;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ }
+ public void add(View view) {
+ et1 = (EditText) findViewById(R.id.e1);
+ et2 = (EditText) findViewById(R.id.e2);
+ TextView t = (TextView) findViewById(R.id.res);
+ int value1 = Integer.parseInt(et1.getText().toString());
+ int value2 = Integer.parseInt(et2.getText().toString());
+ int c = value1 + value2;
+ TextView t2 = (TextView) findViewById(R.id.res);
+ t2.setText("Addition :" + c);
+ }
+ public void sub(View view) {
+ et1 = (EditText) findViewById(R.id.e1);
+ et2 = (EditText) findViewById(R.id.e2);
+ TextView t = (TextView) findViewById(R.id.res);
+ int value1 = Integer.parseInt(et1.getText().toString());
+int value2 = Integer.parseInt(et2.getText().toString());
+ int c = value1 - value2;
+ TextView t2 = (TextView) findViewById(R.id.res);
+ t2.setText("Substraction :" + c);
+ }
+ public void mul(View view) {
+ et1 = (EditText) findViewById(R.id.e1);
+ et2 = (EditText) findViewById(R.id.e2);
+ TextView t = (TextView) findViewById(R.id.res);
+ int value1 = Integer.parseInt(et1.getText().toString());
+ int value2 = Integer.parseInt(et2.getText().toString());
+ int c = value1 * value2;
+ TextView t2 = (TextView) findViewById(R.id.res);
+ t2.setText("Multiplication :" + c);
+ }
+ public void div(View view) {
+ et1 = (EditText) findViewById(R.id.e1);
+ et2 = (EditText) findViewById(R.id.e2);
+ TextView t = (TextView) findViewById(R.id.res);
+ int value1 = Integer.parseInt(et1.getText().toString());
+ int value2 = Integer.parseInt(et2.getText().toString());
+ int c = value1 / value2;
+ TextView t2 = (TextView) findViewById(R.id.res);
+ t2.setText("Divisor is :" + c);
+ }
+ public void mod(View view) {
+ et1 = (EditText) findViewById(R.id.e1);
+ et2 = (EditText) findViewById(R.id.e2);
+ TextView t = (TextView) findViewById(R.id.res);
+ int value1 = Integer.parseInt(et1.getText().toString());
+ int value2 = Integer.parseInt(et2.getText().toString());
+ int c = value1 % value2;
+ TextView t2 = (TextView) findViewById(R.id.res);
+ t2.setText("Remainder is :" + c);
+ }
+}
+
+====================================================================================================
+====================================================================================================
+
+Aim: Create an android app to display text in bold, italic, normal style with left, right,
+centeralignments (use RadioButton, CheckBox controls)
+activity_ Main . xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:background="#4CAF50"
+ tools:context=".MainActivity">
+ <TextView
+ android:id="@+id/textView"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:background="#D82626"
+ android:text="Text Styles"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.459"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.14" />
+ <CheckBox
+ android:id="@+id/c1"
+ android:layout_width="85dp"
+ android:layout_height="54dp"
+ android:text="Bold"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.165"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.254" />
+ <CheckBox
+ android:id="@+id/c2"
+ android:layout_width="78dp"
+ android:layout_height="43dp"
+ android:text="Italic"
+app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.162"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.38" />
+ <CheckBox
+ android:id="@+id/c3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Normal"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.168"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.499" />
+ <RadioGroup
+ android:id="@+id/rg1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.872"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.321">
+ <RadioButton
+ android:id="@+id/r1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Left"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.798"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.3"
+ tools:text="Left" />
+ <RadioButton
+ android:id="@+id/r2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+android:text="Right"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.798"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.376" />
+ <RadioButton
+ android:id="@+id/r3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Center"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.804"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.455" />
+ </RadioGroup>
+ <Button
+ android:id="@+id/button"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:onClick="show"
+ android:text="Check"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.567"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.691" />
+ <TextView
+ android:id="@+id/t3"
+ android:layout_width="209dp"
+ android:layout_height="34dp"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.487"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.943" />
+ <TextView
+ android:id="@+id/t2"
+ android:layout_width="151dp"
+ android:layout_height="32dp"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.461"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.876" />
+ <TextView
+ android:id="@+id/t1"
+ android:layout_width="164dp"
+ android:layout_height="23dp"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.481"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.793" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+Main Activity . java
+package com.vardhaman.checkradio;
+import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+public class MainActivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ }
+ public void show(View view) {
+ RadioGroup rg = (RadioGroup) findViewById(R.id.rg1);
+ String value
+=((RadioButton)findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+ CheckBox c1 = (CheckBox)findViewById(R.id.c1);
+CheckBox c2 = (CheckBox)findViewById(R.id.c2);
+ CheckBox c3 = (CheckBox)findViewById(R.id.c3);
+ TextView tv1=(TextView)findViewById(R.id.t1);
+ TextView tv2=(TextView)findViewById(R.id.t2);
+ TextView tv3=(TextView)findViewById(R.id.t3);
+ if(c1.isChecked()){
+ tv1.setText("BOLD");
+ tv1.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+ if(value.equals("Left"))
+ tv1.setGravity(Gravity.LEFT);
+ else if(value.equals("Right"))
+ tv1.setGravity(Gravity.RIGHT);
+ else tv1.setGravity(Gravity.CENTER);
+ }
+ else tv1.setText("");
+ if(c2.isChecked()){ tv2.setText("ITALIC");
+ tv2.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+ if(value.equals("Left"))
+ tv2.setGravity(Gravity.LEFT);
+ else if(value.equals("Right"))
+ tv2.setGravity(Gravity.RIGHT);
+ else tv2.setGravity(Gravity.CENTER);
+ }
+ else tv2.setText("");
+ if(c3.isChecked()){
+ tv3.setText("NORMAL");
+ if(value.equals("Left"))
+ tv3.setGravity(Gravity.LEFT);
+ else if(value.equals("Right"))
+ tv3.setGravity(Gravity.RIGHT);
+ else tv3.setGravity(Gravity.CENTER);
+ }
+ else tv3.setText("");
+ }
+}
+
+====================================================================================================
+
+====================================================================================================
+Aim: Create an android app to display name of the country from the list(Usespinner control)
+Main.xml
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent" android:layout_height="match_parent"
+tools:context="com.example.administrator.spinner.MainActivity">
+<Spinner android:id="@+id/spinner"
+android:layout_width="149dp"
+android:layout_height="40dp"
+android:layout_marginBottom="8dp"
+android:layout_marginEnd="8dp"
+android:layout_marginStart="8dp"
+android:layout_marginTop="8dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.502"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.498"/>
+</android.support.constraint.ConstraintLayout>
+MainActivity.java
+import android.support.v7.app.AppCompatActivity;import
+android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner; import
+android.widget.Toast;
+public class MainActivity extends AppCompatActivity implements
+AdapterView.OnItemSelectedListener {
+String[] country = { "India", "USA", "China", "Japan", "Other"};
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+//Getting the instance of Spinner and applying OnItemSelectedListener on it
+Spinner spin = (Spinner) findViewById(R.id.spinner);
+spin.setOnItemSelectedListener(this);
+//Creating the ArrayAdapter instance having the country list
+ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,country);
+aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//Setting the ArrayAdapter data on the Spinner
+spin.setAdapter(aa);
+}
+//Performing action onItemSelected and onNothing selected
+@Override
+public void onItemSelected(AdapterView<?> arg0, View arg1, int position, longid) {
+Toast.makeText(getApplicationContext(),country[position] ,Toast.LENGTH_LONG).show();
+}
+@Override
+public void onNothingSelected(AdapterView<?> arg0) {
+// TODO Auto-generated method stub
+}
+}
+=================================================================================================
+Aim: Create an android app to calculate age of a person (Use DatePickercontrol)
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <DatePicker
+ android:id="@+id/dp"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ tools:ignore="MissingConstraints"
+ tools:layout_editor_absoluteX="0dp"
+ tools:layout_editor_absoluteY="-197dp" />
+ <TextView
+ android:id="@+id/textView1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="TextView"
+ android:textSize="34sp"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.611"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.877" />
+ <Button
+ android:id="@+id/button"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Button"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.567"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.679" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+MainActivity.java
+package com.vardhaman.age;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+public class MainActivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ DatePicker picker1;
+ Button displayDate;
+ TextView textview1;
+ textview1=(TextView)findViewById(R.id.textView1);
+ picker1=(DatePicker)findViewById(R.id.dp);
+ displayDate=(Button)findViewById(R.id.button);
+ int i=picker1.getYear();
+ textview1.setText("pick ur DOB");
+ displayDate.setOnClickListener(new View.OnClickListener()
+ {
+ public void onClick(View view)
+ {
+ int j;
+ j=picker1.getYear();
+ textview1.setText(String.valueOf(i-j)+"Years");
+ }
+ });
+ }
+}
+============================================================================================
+Aim: Create an android app design login control and validate login details
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <Button
+ android:id="@+id/button"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Validate"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.426"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.619" />
+ <EditText
+ android:id="@+id/un"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10"
+ android:inputType="textPersonName"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.353"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.212" />
+ <EditText
+ android:id="@+id/pass"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10"
+ android:inputType="textPersonName"
+ app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.353"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.403" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
+MainActivity.java
+package com.vardhaman.login;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+Button b;
+EditText e1,e2;
+String w="vardhaman";
+String p="it";
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ b=findViewById(R.id.button);
+ e1=findViewById(R.id.un);
+ e2=findViewById(R.id.pass);
+ b.setOnClickListener(new View.OnClickListener() {
+ public void onClick(View V) {
+ String un=e1.getText().toString();
+ String pass=e2.getText().toString();
+ if(w.equals(un)&&(p.equals(pass)))
+ {
+ Toast.makeText(getApplicationContext(),"success"+un, Toast.LENGTH_LONG).show();
+ Intent i=new Intent(getApplicationContext(),secondactivity.class);
+ startActivity(i);
+ }
+ else
+ {
+ Toast.makeText(getApplicationContext(),"Authentication failed",
+Toast.LENGTH_LONG).show();
+ }
+ }
+ });
+ }
+}
+activity_secondactivity.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".secondactivity">
+ <EditText
+ android:id="@+id/s"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10"
+ android:inputType="textPersonName"
+ android:text="loginSuccess"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+secondactivity.java
+package com.vardhaman.login;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+public class secondactivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_secondactivity);
+ }
+}
+
+==============================================================================
+Aim: Create an android app to demonstrate AlertDialog
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <Button android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:id="@+id/button"
+ android:text="Close app"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintLeft_toLeftOf="parent"
+ app:layout_constraintRight_toRightOf="parent"
+ app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+strings.xml
+<resources>
+<string name="app_name">AlertDialogExample</string>
+<string name="dialog_message">Welcome to Alert Dialog</string>
+<string name="dialog_title">Alert</string>
+</resources>
+MainActivity.java
+package com.vardhaman.alert;
+import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+ Button closeButton;
+ AlertDialog.Builder builder;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ closeButton = (Button) findViewById(R.id.button);
+ builder = new AlertDialog.Builder(this);
+ closeButton.setOnClickListener(new View.OnClickListener() {
+ @Override
+ public void onClick(View v) {
+ builder.setMessage("Do you want to close this application ?")
+ .setCancelable(false)
+ .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+ public void onClick(DialogInterface dialog, int id) {
+ finish();
+ Toast.makeText(getApplicationContext(),"you choose yes action for alertbox",
+ Toast.LENGTH_SHORT).show();
+ }
+ })
+ .setNegativeButton("No", new DialogInterface.OnClickListener() {
+ public void onClick(DialogInterface dialog, int id) {
+ dialog.cancel();
+ Toast.makeText(getApplicationContext(),"you choose no action for alertbox",
+ Toast.LENGTH_SHORT).show();
+ }
+ });
+ AlertDialog alert = builder.create();
+ alert.setTitle("AlertDialogExample");
+ alert.show();
+ }
+ });
+ }
+}
+==================================================================================================
+Aim: Create an android app to demonstrate WebView control
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <WebView
+ android:id="@+id/webView"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+MainActivity.java
+package com.vardhaman.webview;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.webkit.WebView;
+public class MainActivity extends AppCompatActivity {
+ @Override
+protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ WebView mywebview = (WebView) findViewById(R.id.webView);
+ //String data = "<html><body><h1>Welcome to Vardhaman</h1><h2>IT
+Department</h2></body></html>";
+ //mywebview.loadUrl(data);
+ //mywebview.loadData(data,null,null);
+ String url="https://vardhaman.org/";
+ mywebview.loadUrl(url);
+ }
+}
+AndroidManifest.xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+ package="com.vardhaman.webview">
+<uses-permission android:name="android.permission.INTERNET"/>
+ <application
+ android:allowBackup="true"
+ android:icon="@mipmap/ic_launcher"
+ android:label="@string/app_name"
+ android:roundIcon="@mipmap/ic_launcher_round"
+ android:supportsRtl="true"
+ android:theme="@style/Theme.Webview">
+ <activity android:name=".MainActivity">
+ <intent-filter>
+ <action android:name="android.intent.action.MAIN" />
+ <category android:name="android.intent.category.LAUNCHER" />
+ </intent-filter>
+ </activity>
+ </application>
+</manifest>
